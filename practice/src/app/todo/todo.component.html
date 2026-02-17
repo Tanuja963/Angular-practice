@@ -1,0 +1,62 @@
+<form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+    <h1>Welcome to todo form!</h1>
+    <div>
+        <label>Task:</label>
+        <input type="text" formControlName="taskName" placeholder="Enter task name" />
+        <div *ngIf="todoForm.get('taskName')?.invalid && todoForm.get('taskName')?.touched" style="color: red;">
+            Task is required!
+        </div>
+    </div> <br>
+    <div>
+        <label>Description:</label>
+        <textarea formControlName="description" placeholder="Description"></textarea>
+        <div *ngIf="todoForm.get('description')?.invalid && todoForm.get('description')?.touched" style="color: red;">
+            Max 200 characters!
+        </div>
+    </div><br>
+    <div>
+        <label>Priority:</label>
+        <select formControlName="priority">
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+        </select>
+    </div><br>
+    <div>
+        <label>Due Date:</label>
+        <input type="date" formControlName="dueDate" />
+        <div *ngIf="todoForm.get('dueDate')?.invalid && todoForm.get('dueDate')?.touched" style="color: red;">
+            Due Date is required!
+        </div>
+    </div><br>
+    <button [disabled]="!todoForm.valid">Add Todo</button>
+</form>
+
+<h2>My Todos ({{ tasks.length }})</h2>
+<p *ngIf="tasks.length === 0">No todos yet added.</p>
+
+<table *ngIf="tasks.length > 0">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Task Name</th>
+            <th>Description</th>
+            <th>Priority</th>
+            <th>Due Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let task of tasks; let i = index">
+            <td>{{ task.id }}</td>
+            <td>{{ task.taskName }}</td>
+            <td>{{ task.description || 'N/A' }}</td>
+            <td>{{ task.priority }}</td>
+            <td>{{ task.dueDate }}</td>
+            <td>
+                <button [routerLink]="['/todo', task.id]">View</button>&nbsp;
+                <button (click)="deleteTodo(i)">Delete</button> 
+            </td>
+        </tr>
+    </tbody>
+</table>

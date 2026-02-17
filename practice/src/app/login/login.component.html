@@ -1,0 +1,38 @@
+<form #userForm ="ngForm" (ngSubmit)="onSubmit(userForm)">
+    <h1>Login Form</h1>
+    <label>LoginId: </label>
+    <input type="text" name="username" placeholder="UserName" ngModel required />
+    <div *ngIf="userForm.controls['username']?.invalid && userForm.controls['username']?.touched">
+        username is required
+    </div>
+    <!-- <span *ngIf="userForm.controls['username']?.untouched">
+       username not touched yet
+    </span>
+    <span *ngIf="userForm.controls['username']?.dirty">
+       username modified
+    </span>
+    <span *ngIf="userForm.controls['username']?.pristine">
+       username is pristine (not modified)
+    </span> -->
+    <br><br>
+    <label>Password: </label>
+    <input type ="password" name ="password" placeholder="Password" ngModel required  minlength="7"
+       maxlength="8" pattern="^[A-Z][a-zA-Z0-9!@#$%^&*()]{6,7}$" />
+     <div *ngIf="userForm.controls['password']?.errors?.required && userForm.controls['password']?.touched">
+        Password is required
+     </div>
+    <div *ngIf="userForm.controls['password']?.errors?.pattern && userForm.controls['password']?.touched">
+        Password must start with uppercase and be at least 7 characters
+    </div>
+   <br><br> 
+   <label>EmailId: </label>
+    <input type ="email" name ="email" placeholder="Email" ngModel required email/>
+    <div *ngIf="userForm.controls['email']?.touched && userForm.controls['email']?.errors?.required"> 
+        Email is required 
+    </div>
+     <div *ngIf="userForm.controls['email']?.errors?.email && userForm.controls['email']?.touched">
+        Please enter a valid email format
+     </div>
+    <br><br>
+    <button [disabled]="!userForm.valid">Submit</button>
+</form>
