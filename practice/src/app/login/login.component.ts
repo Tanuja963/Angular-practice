@@ -14,9 +14,11 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-   onSubmit(userForm:NgForm){
-    console.log("logged in..");
-    this.router.navigate(['/todo']);
+  onSubmit(userForm: NgForm) {
+    if (userForm.valid) {
+      console.log("logged in..");
+      localStorage.setItem('isLoggedIn', 'true'); 
+      this.router.navigate(['/todo']);
+    }
   }
-
 }
