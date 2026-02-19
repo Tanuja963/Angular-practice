@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder,Validators,FormGroup } from '@angular/forms';
+// import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,7 +12,7 @@ export class TodoComponent implements OnInit {
   todoForm!: FormGroup;
   tasks: any[] = [];
 
-  constructor(private router:Router) { }
+  constructor(private router: Router, private formBuilder: FormBuilder) { }
 
   saveTodos() {
     localStorage.setItem('todos', JSON.stringify(this.tasks));
@@ -23,14 +24,24 @@ export class TodoComponent implements OnInit {
       this.tasks = JSON.parse(saved);
     }
   }
+  // ngOnInit() {
+  //   this.loadTodos();
+  //   this.todoForm = new FormGroup({
+  //     taskName: new FormControl('', Validators.required),
+  //     description: new FormControl('', [Validators.minLength(10), Validators.maxLength(200)]),
+  //     priority: new FormControl('Medium', Validators.required),
+  //     dueDate: new FormControl('', Validators.required),
+  //   });
+  // }
   ngOnInit() {
     this.loadTodos();
-    this.todoForm = new FormGroup({
-      taskName: new FormControl('', Validators.required),
-      description: new FormControl('', [Validators.minLength(10), Validators.maxLength(200)]),
-      priority: new FormControl('Medium', Validators.required),
-      dueDate: new FormControl('', Validators.required),
+    this.todoForm = this.formBuilder.group({
+      taskName: ['', Validators.required],
+      description: ['', [Validators.minLength(10), Validators.maxLength(200)]],
+      priority: ['Medium', Validators.required],
+      dueDate: ['', Validators.required],
     });
+
   }
   onSubmit() {
     if (this.todoForm.valid) {
@@ -49,8 +60,8 @@ export class TodoComponent implements OnInit {
   }
 
   logout() {
-  localStorage.removeItem('isLoggedIn');
-  this.router.navigate(['/login']);
-}
+    localStorage.removeItem('isLoggedIn');
+    this.router.navigate(['/login']);
+  }
 }
 
