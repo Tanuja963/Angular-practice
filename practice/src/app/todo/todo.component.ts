@@ -45,9 +45,14 @@ export class TodoComponent implements OnInit {
   }
   onSubmit() {
     if (this.todoForm.valid) {
+      // this.tasks.push({
+      //   id: this.tasks.length + 1,
+      //   ...this.todoForm.value
+      // });
       this.tasks.push({
-        id: this.tasks.length + 1,
-        ...this.todoForm.value
+        id: this.tasks.length > 0
+        ? Math.max(...this.tasks.map(emp => emp.id)) + 1
+        : 1, ...this.todoForm.value
       });
       this.saveTodos();
       this.todoForm.reset({ priority: 'Medium' });

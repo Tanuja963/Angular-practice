@@ -56,7 +56,7 @@
             <td>{{ task.taskName }}</td>
             <td>{{ task.description || 'N/A' }}</td>
             <td>{{ task.priority }}</td>
-            <td>{{ task.dueDate }}</td>
+            <td>{{ task.dueDate | date}}</td>
             <td>
                 <button [routerLink]="['/todo', task.id]">View</button>&nbsp;
                 <button (click)="deleteTodo(i)">Delete</button> 
